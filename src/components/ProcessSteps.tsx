@@ -40,7 +40,8 @@ export const ProcessSteps = () => {
         <div className="grid md:grid-cols-3 gap-8">
           {steps.map((step, index) => (
             <div key={index} className="card-feature text-center group">
-              <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-br ${step.color} mb-6 shadow-elegant group-hover:shadow-lg transition-all duration-200`}>
+              <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-br ${step.color} mb-6 group-hover:shadow-lg transition-all duration-200`}
+                   style={{ boxShadow: 'var(--shadow-elegant)' }}>
                 <step.icon className="h-8 w-8 text-white" />
               </div>
               

@@ -51,7 +51,14 @@ export const FeaturePreview = () => {
         
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((feature, index) => (
-            <Card key={index} className="p-6 hover:shadow-elegant transition-all duration-200 hover:scale-[1.02] group cursor-pointer">
+            <Card key={index} className="p-6 hover:shadow-lg transition-all duration-200 hover:scale-[1.02] group cursor-pointer"
+                  style={{ boxShadow: 'var(--shadow-card)' }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.boxShadow = 'var(--shadow-elegant)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.boxShadow = 'var(--shadow-card)';
+                  }}>
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="p-3 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">

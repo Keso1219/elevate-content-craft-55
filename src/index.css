@@ -125,7 +125,8 @@
 @layer components {
   /* Hero Button Variant */
   .btn-hero {
-    @apply bg-gradient-to-r from-primary to-accent text-primary-foreground font-medium px-8 py-4 rounded-xl shadow-elegant hover:shadow-lg transition-all duration-200 hover:scale-[1.02];
+    @apply bg-gradient-to-r from-primary to-accent text-primary-foreground font-medium px-8 py-4 rounded-xl hover:shadow-lg transition-all duration-200 hover:scale-[1.02];
+    box-shadow: var(--shadow-elegant);
   }
   
   /* Glass Card Effect */
@@ -135,6 +136,9 @@
   
   /* Feature Card */
   .card-feature {
-    @apply bg-card border border-border rounded-xl p-6 shadow-card hover:shadow-elegant transition-all duration-200 hover:scale-[1.01];
+    @apply bg-card border border-border rounded-xl p-6 shadow-card hover:shadow-lg transition-all duration-200 hover:scale-[1.01];
+  }
+  .card-feature:hover {
+    box-shadow: var(--shadow-elegant);
   }
 }
