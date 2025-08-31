@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import { Send, Sparkles, User, Bot, Copy, Calendar, Share } from "lucide-react";
+import { Send, Sparkles, User, Bot, Copy, Calendar, Share, Globe } from "lucide-react";
+import { useLocation } from "react-router-dom";
 
 interface Message {
   id: string;
@@ -15,15 +17,21 @@ interface Message {
 interface GeneratedPost {
   id: string;
   content: string;
+  contentTranslation?: string;
   platform: string;
   style: string;
   timestamp: string;
+  language: 'sv' | 'en';
+  cta?: string;
+  ctaTranslation?: string;
 }
 
 export default function Elev8() {
   const { toast } = useToast();
+  const location = useLocation();
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState<'sv' | 'en'>('sv');
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
@@ -36,17 +44,21 @@ export default function Elev8() {
   const [generatedPosts, setGeneratedPosts] = useState<GeneratedPost[]>([
     {
       id: '1',
-      content: "🚀 Just discovered the power of AI-driven content creation! \n\nAfter analyzing 50+ top creators, I've learned that authenticity beats perfection every time. Your unique voice + smart automation = content that actually converts.\n\nWhat's your take on AI in content creation? 👇",
+      content: "🚀 Upptäckte precis kraften i AI-driven innehållsskapande!\n\nEfter att ha analyserat 50+ toppkreatörer har jag lärt mig att äkthet slår perfektion varje gång. Din unika röst + smart automatisering = innehåll som faktiskt konverterar.\n\nVad tycker du om AI inom innehållsskapande? 👇",
+      contentTranslation: "🚀 Just discovered the power of AI-driven content creation!\n\nAfter analyzing 50+ top creators, I've learned that authenticity beats perfection every time. Your unique voice + smart automation = content that actually converts.\n\nWhat's your take on AI in content creation? 👇",
       platform: 'LinkedIn',
       style: 'Oskar-style',
-      timestamp: '2024-01-15T14:30:00Z'
+      timestamp: '2024-01-15T14:30:00Z',
+      language: 'sv'
     },
     {
       id: '2',
-      content: "Stop posting random content. Start posting with purpose. 🎯\n\nHere's what changed everything for me:\n• Document your expertise\n• Study your idols\n• Let AI connect the dots\n\nResult? Content that feels authentically you but performs like theirs.",
-      platform: 'Twitter',
+      content: "Sluta posta slumpmässigt innehåll. Börja posta med syfte. 🎯\n\nHär är vad som förändrade allt för mig:\n• Dokumentera din expertis\n• Studera dina idoler\n• Låt AI koppla ihop pusselbitar\n\nResultat? Innehåll som känns äkta dig men presterar som deras.",
+      contentTranslation: "Stop posting random content. Start posting with purpose. 🎯\n\nHere's what changed everything for me:\n• Document your expertise\n• Study your idols\n• Let AI connect the dots\n\nResult? Content that feels authentically you but performs like theirs.",
+      platform: 'LinkedIn',
       style: 'Mathias-style',
-      timestamp: '2024-01-15T13:15:00Z'
+      timestamp: '2024-01-15T13:15:00Z',
+      language: 'sv'
     }
   ]);
 
@@ -86,10 +98,12 @@ export default function Elev8() {
       // Generate a new post
       const newPost: GeneratedPost = {
         id: Date.now().toString(),
-        content: "Your personalized post will appear here based on the conversation context and your knowledge base.",
+        content: "Ditt personliga inlägg kommer att visas här baserat på samtalskontexten och din kunskapsbas.",
+        contentTranslation: "Your personalized post will appear here based on the conversation context and your knowledge base.",
         platform: 'LinkedIn',
         style: 'Custom',
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        language: 'sv'
       };
       
       setGeneratedPosts(prev => [newPost, ...prev]);
@@ -103,13 +117,43 @@ export default function Elev8() {
     }
   };
 
-  const copyPost = (content: string) => {
+  const copyPost = (post: GeneratedPost) => {
+    const content = selectedLanguage === 'sv' ? post.content : (post.contentTranslation || post.content);
     navigator.clipboard.writeText(content);
     toast({
       title: "Copied to clipboard",
       description: "Post content has been copied to your clipboard.",
     });
   };
+
+  // Handle loading post from library
+  useEffect(() => {
+    if (location.state?.loadPost) {
+      const loadedPost = location.state.loadPost;
+      const assistantMessage: Message = {
+        id: Date.now().toString(),
+        role: 'assistant',
+        content: `I've loaded the post "${loadedPost.title}" for you. Would you like me to modify it, create a variation, or use it as inspiration for something new?`,
+        timestamp: new Date().toISOString()
+      };
+      
+      setMessages(prev => [...prev, assistantMessage]);
+      
+      const newPost: GeneratedPost = {
+        id: Date.now().toString(),
+        content: loadedPost.content,
+        contentTranslation: loadedPost.contentTranslation,
+        platform: loadedPost.platforms[0] || 'LinkedIn',
+        style: loadedPost.style,
+        timestamp: new Date().toISOString(),
+        language: 'sv',
+        cta: loadedPost.cta,
+        ctaTranslation: loadedPost.ctaTranslation
+      };
+      
+      setGeneratedPosts(prev => [newPost, ...prev]);
+    }
+  }, [location.state]);
 
   const formatTime = (timestamp: string) => {
     return new Date(timestamp).toLocaleTimeString('en-US', {
@@ -118,23 +162,49 @@ export default function Elev8() {
     });
   };
 
+  const hasGeneratedPosts = generatedPosts.length > 0;
+
   return (
     <div className="min-h-screen bg-secondary/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2 flex items-center">
-            <Sparkles className="h-8 w-8 text-primary mr-3" />
-            Elev8 Agent
-          </h1>
-          <p className="text-muted-foreground">
-            Chat with your AI content assistant to create personalized, high-quality posts.
-          </p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold mb-2 flex items-center">
+                <Sparkles className="h-8 w-8 text-primary mr-3" />
+                Elev8 Agent
+              </h1>
+              <p className="text-muted-foreground">
+                Chat with your AI content assistant to create personalized, high-quality posts.
+              </p>
+            </div>
+            
+            {hasGeneratedPosts && (
+              <div className="flex items-center space-x-2">
+                <Button
+                  variant={selectedLanguage === 'sv' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setSelectedLanguage('sv')}
+                >
+                  🇸🇪 Svenska
+                </Button>
+                <Button
+                  variant={selectedLanguage === 'en' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setSelectedLanguage('en')}
+                >
+                  🇬🇧 English
+                </Button>
+              </div>
+            )}
+          </div>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className={`${hasGeneratedPosts ? 'grid lg:grid-cols-3 gap-8' : 'flex justify-center'}`}>
           {/* Chat Interface */}
-          <div className="lg:col-span-2">
-            <Card className="h-[70vh] flex flex-col">
+          <div className={`${hasGeneratedPosts ? 'lg:col-span-2' : 'w-full max-w-4xl'} transition-all duration-300`}>
+            <Card className="h-[70vh] flex flex-col"
+                  style={{ boxShadow: 'var(--shadow-card)' }}>
               {/* Messages */}
               <div className="flex-1 p-6 overflow-y-auto space-y-4">
                 {messages.map((msg) => (
@@ -209,52 +279,79 @@ export default function Elev8() {
           </div>
 
           {/* Generated Posts */}
-          <div className="space-y-6">
-            <h2 className="text-xl font-semibold">Generated Posts</h2>
-            
-            {generatedPosts.map((post) => (
-              <Card key={post.id} className="p-4">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center space-x-2">
-                      <span className="px-2 py-1 bg-primary/10 text-primary rounded text-xs">
-                        {post.platform}
-                      </span>
-                      <span className="px-2 py-1 bg-accent/10 text-accent rounded text-xs">
-                        {post.style}
+          {hasGeneratedPosts && (
+            <div className="space-y-6 animate-slide-in-right">
+              <h2 className="text-xl font-semibold">Generated Posts</h2>
+              
+              {generatedPosts.map((post) => (
+                <Card key={post.id} className="p-4 hover:shadow-lg transition-all duration-200"
+                      style={{ boxShadow: 'var(--shadow-card)' }}>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between text-sm">
+                      <div className="flex items-center space-x-2">
+                        <Badge variant="secondary" className="text-xs">
+                          {post.platform}
+                        </Badge>
+                        <Badge variant="outline" className="text-xs">
+                          {post.style}
+                        </Badge>
+                        {post.language && (
+                          <Badge variant="outline" className="text-xs">
+                            {post.language === 'sv' ? '🇸🇪' : '🇬🇧'}
+                          </Badge>
+                        )}
+                      </div>
+                      <span className="text-muted-foreground">
+                        {formatTime(post.timestamp)}
                       </span>
                     </div>
-                    <span className="text-muted-foreground">
-                      {formatTime(post.timestamp)}
-                    </span>
+                    
+                    <div className="bg-muted/50 p-3 rounded-lg">
+                      <p className="text-sm whitespace-pre-line">
+                        {selectedLanguage === 'sv' ? post.content : (post.contentTranslation || post.content)}
+                      </p>
+                      {post.cta && (
+                        <p className="text-sm mt-2 font-medium text-primary">
+                          {selectedLanguage === 'sv' ? post.cta : (post.ctaTranslation || post.cta)}
+                        </p>
+                      )}
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => copyPost(post)}
+                      >
+                        <Copy className="h-3 w-3 mr-1" />
+                        Copy
+                      </Button>
+                      
+                      <div className="flex items-center space-x-1">
+                        <Button variant="outline" size="sm">
+                          <Calendar className="h-3 w-3 mr-1" />
+                          Schedule
+                        </Button>
+                        <Button variant="outline" size="sm">
+                          <Share className="h-3 w-3 mr-1" />
+                          Share
+                        </Button>
+                        {post.contentTranslation && (
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            onClick={() => setSelectedLanguage(selectedLanguage === 'sv' ? 'en' : 'sv')}
+                          >
+                            <Globe className="h-3 w-3" />
+                          </Button>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                  
-                  <div className="bg-muted/50 p-3 rounded-lg">
-                    <p className="text-sm whitespace-pre-line">{post.content}</p>
-                  </div>
-                  
-                  <div className="flex items-center space-x-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => copyPost(post.content)}
-                    >
-                      <Copy className="h-3 w-3 mr-1" />
-                      Copy
-                    </Button>
-                    <Button variant="outline" size="sm">
-                      <Calendar className="h-3 w-3 mr-1" />
-                      Schedule
-                    </Button>
-                    <Button variant="outline" size="sm">
-                      <Share className="h-3 w-3 mr-1" />
-                      Share
-                    </Button>
-                  </div>
-                </div>
-              </Card>
-            ))}
-          </div>
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
