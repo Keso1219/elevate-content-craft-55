@@ -14,6 +14,133 @@ export type Database = {
   }
   public: {
     Tables: {
+      crm_connections: {
+        Row: {
+          access_token: string | null
+          created_at: string
+          expires_at: string | null
+          id: string
+          last_sync_at: string | null
+          provider: string
+          refresh_token: string | null
+          scope: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          access_token?: string | null
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          last_sync_at?: string | null
+          provider: string
+          refresh_token?: string | null
+          scope?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          access_token?: string | null
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          last_sync_at?: string | null
+          provider?: string
+          refresh_token?: string | null
+          scope?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      crm_objects: {
+        Row: {
+          connection_id: string
+          created_at: string
+          data: Json
+          external_id: string
+          id: string
+          indexed_at: string | null
+          object_type: string
+          provider: string
+          updated_at: string
+          updated_remote_at: string | null
+        }
+        Insert: {
+          connection_id: string
+          created_at?: string
+          data: Json
+          external_id: string
+          id?: string
+          indexed_at?: string | null
+          object_type: string
+          provider: string
+          updated_at?: string
+          updated_remote_at?: string | null
+        }
+        Update: {
+          connection_id?: string
+          created_at?: string
+          data?: Json
+          external_id?: string
+          id?: string
+          indexed_at?: string | null
+          object_type?: string
+          provider?: string
+          updated_at?: string
+          updated_remote_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_objects_connection_id_fkey"
+            columns: ["connection_id"]
+            isOneToOne: false
+            referencedRelation: "crm_connections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crm_sync_runs: {
+        Row: {
+          connection_id: string
+          error: string | null
+          finished_at: string | null
+          id: string
+          started_at: string
+          stats: Json | null
+          status: string
+        }
+        Insert: {
+          connection_id: string
+          error?: string | null
+          finished_at?: string | null
+          id?: string
+          started_at?: string
+          stats?: Json | null
+          status?: string
+        }
+        Update: {
+          connection_id?: string
+          error?: string | null
+          finished_at?: string | null
+          id?: string
+          started_at?: string
+          stats?: Json | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_sync_runs_connection_id_fkey"
+            columns: ["connection_id"]
+            isOneToOne: false
+            referencedRelation: "crm_connections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       facebook_posts: {
         Row: {
           comments: number | null
@@ -382,6 +509,81 @@ export type Database = {
           velocity?: number | null
         }
         Relationships: []
+      }
+      vault_docs: {
+        Row: {
+          content: string
+          created_at: string
+          doc_type: string
+          embedding: string | null
+          id: string
+          metadata: Json | null
+          tags: string[] | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          doc_type: string
+          embedding?: string | null
+          id?: string
+          metadata?: Json | null
+          tags?: string[] | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          doc_type?: string
+          embedding?: string | null
+          id?: string
+          metadata?: Json | null
+          tags?: string[] | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      vault_source_records: {
+        Row: {
+          created_at: string
+          crm_object_id: string
+          id: string
+          vault_doc_id: string
+        }
+        Insert: {
+          created_at?: string
+          crm_object_id: string
+          id?: string
+          vault_doc_id: string
+        }
+        Update: {
+          created_at?: string
+          crm_object_id?: string
+          id?: string
+          vault_doc_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vault_source_records_crm_object_id_fkey"
+            columns: ["crm_object_id"]
+            isOneToOne: false
+            referencedRelation: "crm_objects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vault_source_records_vault_doc_id_fkey"
+            columns: ["vault_doc_id"]
+            isOneToOne: false
+            referencedRelation: "vault_docs"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
