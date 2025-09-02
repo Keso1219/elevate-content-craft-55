@@ -10,6 +10,7 @@ import Elev8 from "./pages/Elev8";
 import Library from "./pages/Library";
 import Scraper from "./pages/Scraper";
 import Calendar from "./pages/Calendar";
+import Vault from "./pages/Vault";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ const App = () => (
           <Route path="/scraper" element={<Scraper />} />
           <Route path="/elev8" element={<Elev8 />} />
           <Route path="/calendar" element={<Calendar />} />
+          <Route path="/vault" element={<Vault />} />
           <Route path="/library" element={<Library />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
