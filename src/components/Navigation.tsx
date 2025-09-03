@@ -1,12 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
-import { Brain, Upload, Search, MessageSquare, Calendar, BookOpen, Database } from "lucide-react";
+import { Brain, Search, MessageSquare, Calendar, BookOpen, Database } from "lucide-react";
 
 export const Navigation = () => {
   const location = useLocation();
   
   const navItems = [
-    { path: '/upload', label: 'Upload', icon: Upload },
     { path: '/vault', label: 'Knowledge Vault', icon: Database },
     { path: '/scraper', label: 'Scraper', icon: Search },
     { path: '/elev8', label: 'Elev8 Agent', icon: MessageSquare },

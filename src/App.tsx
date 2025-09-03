@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
 import Index from "./pages/Index";
-import Upload from "./pages/Upload";
+import UploadRedirect from "./pages/UploadRedirect";
 import Elev8 from "./pages/Elev8";
 import Library from "./pages/Library";
 import Scraper from "./pages/Scraper";
@@ -24,7 +24,7 @@ const App = () => (
         <Navigation />
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/upload" element={<Upload />} />
+          <Route path="/upload" element={<UploadRedirect />} />
           <Route path="/scraper" element={<Scraper />} />
           <Route path="/elev8" element={<Elev8 />} />
           <Route path="/calendar" element={<Calendar />} />

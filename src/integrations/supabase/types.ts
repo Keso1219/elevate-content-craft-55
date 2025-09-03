@@ -518,6 +518,7 @@ export type Database = {
           embedding: string | null
           id: string
           metadata: Json | null
+          source: string | null
           tags: string[] | null
           title: string
           updated_at: string
@@ -530,6 +531,7 @@ export type Database = {
           embedding?: string | null
           id?: string
           metadata?: Json | null
+          source?: string | null
           tags?: string[] | null
           title: string
           updated_at?: string
@@ -542,6 +544,7 @@ export type Database = {
           embedding?: string | null
           id?: string
           metadata?: Json | null
+          source?: string | null
           tags?: string[] | null
           title?: string
           updated_at?: string
