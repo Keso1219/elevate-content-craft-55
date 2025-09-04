@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      agent_sessions: {
+        Row: {
+          created_at: string | null
+          id: string
+          input: string | null
+          meta: Json | null
+          mode: string
+          output: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          input?: string | null
+          meta?: Json | null
+          mode: string
+          output?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          input?: string | null
+          meta?: Json | null
+          mode?: string
+          output?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       crm_connections: {
         Row: {
           access_token: string | null
@@ -140,6 +170,36 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      emails: {
+        Row: {
+          body: string
+          created_at: string | null
+          email_type: string | null
+          id: string
+          segment_id: string | null
+          subject: string
+          user_id: string
+        }
+        Insert: {
+          body: string
+          created_at?: string | null
+          email_type?: string | null
+          id?: string
+          segment_id?: string | null
+          subject: string
+          user_id: string
+        }
+        Update: {
+          body?: string
+          created_at?: string | null
+          email_type?: string | null
+          id?: string
+          segment_id?: string | null
+          subject?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       facebook_posts: {
         Row: {
@@ -294,6 +354,36 @@ export type Database = {
         }
         Relationships: []
       }
+      lead_magnets: {
+        Row: {
+          content: string
+          created_at: string | null
+          hooks: string[] | null
+          id: string
+          title: string | null
+          type: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string | null
+          hooks?: string[] | null
+          id?: string
+          title?: string | null
+          type: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string | null
+          hooks?: string[] | null
+          id?: string
+          title?: string | null
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       li_guide_docs: {
         Row: {
           content: string
@@ -414,6 +504,42 @@ export type Database = {
           created_at?: string | null
           id?: string | null
           metadata?: Json | null
+        }
+        Relationships: []
+      }
+      posts: {
+        Row: {
+          content: string
+          created_at: string | null
+          id: string
+          platforms: string[] | null
+          scheduled_at: string | null
+          source: string | null
+          status: string | null
+          style: string | null
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string | null
+          id?: string
+          platforms?: string[] | null
+          scheduled_at?: string | null
+          source?: string | null
+          status?: string | null
+          style?: string | null
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string | null
+          id?: string
+          platforms?: string[] | null
+          scheduled_at?: string | null
+          source?: string | null
+          status?: string | null
+          style?: string | null
+          user_id?: string
         }
         Relationships: []
       }
