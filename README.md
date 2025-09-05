@@ -1,5 +1,5 @@
 ---
-title: React
+title: Eleveight.app
 emoji: 🐠
 colorFrom: indigo
 colorTo: red
