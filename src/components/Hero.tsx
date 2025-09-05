@@ -1,12 +1,13 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Upload, Search, Sparkles } from "lucide-react";
-import heroImage from "@/assets/hero-image.jpg";
+import { ArrowRight, Sparkles } from "lucide-react";
+import heroImage from "../assets/hero-image.jpg"; // ✅ relative import so Vite bundles it correctly
 
 export const Hero = () => {
   return (
     <section className="relative bg-gradient-to-br from-secondary via-background to-muted min-h-[80vh] flex items-center">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Left Column */}
           <div className="space-y-8">
             <div className="space-y-4">
               <h1 className="text-4xl md:text-6xl font-bold leading-tight">
@@ -18,13 +19,15 @@ export const Hero = () => {
                 <br />
                 Elevate your content.
               </h1>
-              
+
               <p className="text-xl text-muted-foreground max-w-2xl">
-                AI-powered social media assistant for founders, creators, and marketers. 
-                Generate personalized, high-quality content using your own knowledge and inspiration.
+                AI-powered social media assistant for founders, creators, and marketers.
+                Generate personalized, high-quality content using your own knowledge
+                and inspiration.
               </p>
             </div>
-            
+
+            {/* Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" className="btn-hero">
                 Start Creating
@@ -34,7 +37,8 @@ export const Hero = () => {
                 Watch Demo
               </Button>
             </div>
-            
+
+            {/* Status Indicators */}
             <div className="flex items-center space-x-6 text-sm text-muted-foreground">
               <div className="flex items-center space-x-1">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
@@ -46,10 +50,11 @@ export const Hero = () => {
               </div>
             </div>
           </div>
-          
+
+          {/* Right Column */}
           <div className="relative">
-            <img 
-              src={heroImage} 
+            <img
+              src={heroImage}
               alt="ElevEight AI content creation platform dashboard"
               className="rounded-2xl shadow-2xl"
             />
