@@ -19,8 +19,7 @@ export const Hero = () => {
               </h1>
               <p className="text-xl text-muted-foreground max-w-2xl">
                 AI-powered social media assistant for founders, creators, and marketers.
-                Generate personalized, high-quality content using your own knowledge
-                and inspiration.
+                Generate personalized, high-quality content using your own knowledge and inspiration.
               </p>
             </div>
 
@@ -29,9 +28,7 @@ export const Hero = () => {
                 Start Creating
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-              <Button variant="outline" size="lg">
-                Watch Demo
-              </Button>
+              <Button variant="outline" size="lg">Watch Demo</Button>
             </div>
 
             <div className="flex items-center space-x-6 text-sm text-muted-foreground">
@@ -47,9 +44,8 @@ export const Hero = () => {
           </div>
 
           <div className="relative">
-            {/* Served directly from public/ at runtime */}
             <img
-              src="/hero-image.jpg"
+              src="/hero-image.jpg"     // served from /public
               alt="ElevEight AI content creation platform dashboard"
               className="rounded-2xl shadow-2xl"
             />
