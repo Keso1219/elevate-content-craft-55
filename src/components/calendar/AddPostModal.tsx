@@ -154,7 +154,15 @@ export function AddPostModal({ isOpen, onClose, selectedDate, onSave }: AddPostM
     }));
   };
 
-  const selectFromLibrary = (post: any) => {
+  type SimplePost = {
+    id: string;
+    title: string;
+    content: string;
+    platforms: string[];
+    style: string;
+  };
+
+  const selectFromLibrary = (post: SimplePost) => {
     setFormData(prev => ({
       ...prev,
       title: post.title,
@@ -165,7 +173,7 @@ export function AddPostModal({ isOpen, onClose, selectedDate, onSave }: AddPostM
     setActiveTab("new");
   };
 
-  const selectFromGenerated = (post: any) => {
+  const selectFromGenerated = (post: SimplePost) => {
     setFormData(prev => ({
       ...prev,
       title: post.title,
@@ -241,7 +249,7 @@ export function AddPostModal({ isOpen, onClose, selectedDate, onSave }: AddPostM
                 </div>
                 <div className="space-y-2">
                   <Label>Post Status</Label>
-                  <Select value={formData.status} onValueChange={(value: any) => setFormData(prev => ({ ...prev, status: value }))}>
+                  <Select value={formData.status} onValueChange={(value: 'scheduled' | 'draft' | 'reshare') => setFormData(prev => ({ ...prev, status: value }))}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>

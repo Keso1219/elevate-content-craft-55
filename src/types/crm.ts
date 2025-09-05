@@ -20,7 +20,7 @@ export interface CrmObject {
   provider: string;
   object_type: 'company' | 'contact' | 'deal' | 'note';
   external_id: string;
-  data: Record<string, any>;
+  data: Record<string, unknown>;
   updated_remote_at?: string;
   indexed_at?: string;
   created_at: string;
@@ -33,7 +33,7 @@ export interface CrmSyncRun {
   started_at: string;
   finished_at?: string;
   status: 'running' | 'success' | 'failed';
-  stats?: Record<string, any>;
+  stats?: Record<string, unknown>;
   error?: string;
 }
 
@@ -44,8 +44,8 @@ export interface VaultDoc {
   content: string;
   doc_type: string; // More flexible to handle database results
   tags?: string[];
-  metadata?: any; // Handle Json type from database
-  embedding?: any; // Handle vector type from database
+  metadata?: unknown; // Handle Json type from database
+  embedding?: unknown; // Handle vector type from database
   created_at: string;
   updated_at: string;
 }

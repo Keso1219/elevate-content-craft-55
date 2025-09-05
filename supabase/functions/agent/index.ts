@@ -107,11 +107,12 @@ Deno.serve(async (req) => {
         "You write segmented B2B emails. Be clear, benefits-first, include a CTA. Match type (Welcome/Nurture/Re-engage). Return requested number of variants as JSON array with subject and body: [{\"subject\": \"...\", \"body\": \"...\"}]",
     };
 
+    type ChatMsg = { role: "system" | "user" | "assistant"; content: string };
     const messages = [
       { role: "system", content: systemPrompts[mode] ?? systemPrompts.chat },
       rag ? { role: "system", content: `Context:\n${rag}` } : null,
       { role: "user", content: JSON.stringify({ mode, input, options }) },
-    ].filter(Boolean) as any[];
+    ].filter((m): m is ChatMsg => Boolean(m));
 
     console.log(`Agent request - Mode: ${mode}, User: ${user.id}, Context length: ${rag.length}`);
 
@@ -147,7 +148,7 @@ Deno.serve(async (req) => {
     });
 
     // OPTIONAL convenience parsing by mode
-    let parsed: any = text;
+    let parsed: unknown = text;
     try {
       // If the model returned JSON, parse it
       parsed = JSON.parse(text);

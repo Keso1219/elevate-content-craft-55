@@ -29,6 +29,8 @@ import {
 import { callAgent, savePostToLibrary, schedulePost, saveLeadMagnet, saveEmail } from "@/lib/api";
 import type { ChatMessage, PostVariant, LeadMagnet, EmailVariant } from "@/types/agent";
 
+type RawEmailVariant = string | { subject?: string; body?: string };
+
 export default function AgentTabs() {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("chat");
@@ -251,7 +253,7 @@ export default function AgentTabs() {
         }
       });
 
-      let variants = [];
+      let variants: RawEmailVariant[] = [];
       try {
         variants = Array.isArray(response.data) ? response.data : JSON.parse(response.raw);
       } catch {
@@ -263,10 +265,10 @@ export default function AgentTabs() {
         }];
       }
 
-      const emailVars: EmailVariant[] = variants.map((v: any, i: number) => ({
+      const emailVars: EmailVariant[] = variants.map((v: RawEmailVariant, i: number) => ({
         id: (Date.now() + i).toString(),
-        subject: v.subject || emailSubject,
-        body: v.body || v,
+        subject: (typeof v === 'string' ? undefined : v.subject) || emailSubject,
+        body: (typeof v === 'string' ? v : v.body) || (typeof v === 'string' ? v : ''),
         emailType,
         segmentId: emailSegment
       }));
@@ -633,7 +635,7 @@ export default function AgentTabs() {
                 <div className="space-y-4">
                   <div>
                     <Label>Asset Type</Label>
-                    <Select value={leadType} onValueChange={(value: any) => setLeadType(value)}>
+                    <Select value={leadType} onValueChange={(value: "checklist" | "guide" | "calculator" | "mini-guide") => setLeadType(value)}>
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>

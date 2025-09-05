@@ -113,7 +113,7 @@ export default function Library() {
     });
   };
 
-  const useInChat = (post: Post) => {
+  const openInChat = (post: Post) => {
     toast({
       title: "Opening in Elev8",
       description: "Post will be loaded into the chat interface.",
@@ -208,7 +208,7 @@ export default function Library() {
                   <Button
                     variant="default"
                     size="sm"
-                    onClick={() => useInChat(post)}
+                    onClick={() => openInChat(post)}
                     className="flex items-center space-x-1"
                   >
                     <MessageSquare className="h-3 w-3" />

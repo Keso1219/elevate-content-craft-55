@@ -171,7 +171,7 @@ export function PostEditModal({ isOpen, onClose, post, onSave, onDelete }: PostE
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>Post Status</Label>
-              <Select value={formData.status} onValueChange={(value: any) => setFormData(prev => ({ ...prev, status: value }))}>
+              <Select value={formData.status} onValueChange={(value: 'scheduled' | 'draft' | 'reshare') => setFormData(prev => ({ ...prev, status: value }))}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>

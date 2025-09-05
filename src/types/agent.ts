@@ -3,7 +3,7 @@ export type AgentMode = "chat" | "post" | "lead" | "email";
 export interface AgentRequest {
   mode: AgentMode;
   input: string;
-  options?: Record<string, any>;
+  options?: Record<string, unknown>;
   context?: {
     docIds?: string[];
     scraperIds?: string[];
@@ -14,7 +14,7 @@ export interface AgentRequest {
 export interface AgentResponse {
   ok: boolean;
   mode: AgentMode;
-  data: any;
+  data: unknown;
   raw: string;
 }
 
