@@ -354,6 +354,45 @@ export type Database = {
         }
         Relationships: []
       }
+      lead_magnet_ideas: {
+        Row: {
+          audience: string | null
+          created_at: string | null
+          format: string | null
+          id: string
+          problem: string | null
+          promise: string | null
+          sources: Json | null
+          status: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          audience?: string | null
+          created_at?: string | null
+          format?: string | null
+          id?: string
+          problem?: string | null
+          promise?: string | null
+          sources?: Json | null
+          status?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          audience?: string | null
+          created_at?: string | null
+          format?: string | null
+          id?: string
+          problem?: string | null
+          promise?: string | null
+          sources?: Json | null
+          status?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       lead_magnets: {
         Row: {
           content: string
@@ -511,37 +550,66 @@ export type Database = {
         Row: {
           content: string
           created_at: string | null
+          cta: string | null
           id: string
+          language: string | null
+          origin_idea_id: string | null
           platforms: string[] | null
           scheduled_at: string | null
           source: string | null
           status: string | null
           style: string | null
+          title: string | null
+          translations: Json | null
+          updated_at: string | null
           user_id: string
+          writing_style: string | null
         }
         Insert: {
           content: string
           created_at?: string | null
+          cta?: string | null
           id?: string
+          language?: string | null
+          origin_idea_id?: string | null
           platforms?: string[] | null
           scheduled_at?: string | null
           source?: string | null
           status?: string | null
           style?: string | null
+          title?: string | null
+          translations?: Json | null
+          updated_at?: string | null
           user_id: string
+          writing_style?: string | null
         }
         Update: {
           content?: string
           created_at?: string | null
+          cta?: string | null
           id?: string
+          language?: string | null
+          origin_idea_id?: string | null
           platforms?: string[] | null
           scheduled_at?: string | null
           source?: string | null
           status?: string | null
           style?: string | null
+          title?: string | null
+          translations?: Json | null
+          updated_at?: string | null
           user_id?: string
+          writing_style?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "posts_origin_idea_id_fkey"
+            columns: ["origin_idea_id"]
+            isOneToOne: false
+            referencedRelation: "lead_magnet_ideas"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       reddit_docs: {
         Row: {
