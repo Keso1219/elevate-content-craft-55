@@ -5,7 +5,7 @@ colorFrom: indigo
 colorTo: red
 sdk: static
 pinned: false
-app_build_command: npm run build
+app_build_command: npm ci && npm run build
 app_file: build/index.html
 ---
 
