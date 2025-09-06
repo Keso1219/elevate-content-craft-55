@@ -1,5 +1,5 @@
 import { Sparkles } from "lucide-react";
-import AgentTabs from "@/components/agent/AgentTabs";
+import AgentWithModes from "@/components/agent/AgentWithModes";
 
 export default function Elev8() {
   return (
@@ -19,7 +19,7 @@ export default function Elev8() {
           </div>
         </div>
 
-        <AgentTabs />
+        <AgentWithModes />
       </div>
     </div>
   );
